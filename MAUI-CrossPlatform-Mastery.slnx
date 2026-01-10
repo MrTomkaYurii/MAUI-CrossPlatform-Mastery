@@ -1,0 +1,86 @@
+<Solution>
+  <Folder Name="/01-Core-Fundamentals/" />
+  <Folder Name="/01-Core-Fundamentals/01-Maui-Startup-Lifecycle/">
+    <Project Path="01-Core-Fundamentals/01-Maui-Startup-Lifecycle/MauiMastery.StartupLifecycle.csproj" />
+  </Folder>
+  <Folder Name="/01-Core-Fundamentals/02-Layouts-Deep-Dive/">
+    <Project Path="01-Core-Fundamentals/02-Layouts-Deep-Dive/MauiMastery.LayoutsDeepDive.csproj" />
+  </Folder>
+  <Folder Name="/01-Core-Fundamentals/03-Common-Controls-And-Styles/">
+    <Project Path="01-Core-Fundamentals/03-Common-Controls-And-Styles/MauiMastery.CommonControlsAndStyles.csproj" />
+  </Folder>
+  <Folder Name="/02-MVVM-And-DataBinding/" />
+  <Folder Name="/02-MVVM-And-DataBinding/04-DataBinding-Modes-And-Formatters/">
+    <Project Path="02-MVVM-And-DataBinding/04-DataBinding-Modes-And-Formatters/MauiMastery.DataBindingModes.csproj" />
+  </Folder>
+  <Folder Name="/02-MVVM-And-DataBinding/05-Converters-And-Triggers/">
+    <Project Path="02-MVVM-And-DataBinding/05-Converters-And-Triggers/MauiMastery.ConvertersAndTriggers.csproj" />
+  </Folder>
+  <Folder Name="/02-MVVM-And-DataBinding/06-Commands-And-Interactions/">
+    <Project Path="02-MVVM-And-DataBinding/06-Commands-And-Interactions/MauiMastery.CommandsAndEvents.csproj" />
+  </Folder>
+  <Folder Name="/02-MVVM-And-DataBinding/07-Community-Toolkit-MVVM/">
+    <Project Path="02-MVVM-And-DataBinding/07-Community-Toolkit-MVVM/MauiMastery.CommunityToolkitMvvm.csproj" />
+  </Folder>
+  <Folder Name="/03-Navigation-And-Shell/" />
+  <Folder Name="/03-Navigation-And-Shell/08-Shell-Routing-And-Query-Parameters/">
+    <Project Path="03-Navigation-And-Shell/08-Shell-Routing-And-Query-Parameters/MauiMastery.ShellRouting.csproj" />
+  </Folder>
+  <Folder Name="/03-Navigation-And-Shell/09-Navigation-Hierarchy-And-Modals/">
+    <Project Path="03-Navigation-And-Shell/09-Navigation-Hierarchy-And-Modals/MauiMastery.NavigationHierarchy.csproj" />
+  </Folder>
+  <Folder Name="/03-Navigation-And-Shell/10-Popups-Alerts-And-ActionSheets/">
+    <Project Path="03-Navigation-And-Shell/10-Popups-Alerts-And-ActionSheets/MauiMastery.PopupsAndDialogs.csproj" />
+  </Folder>
+  <Folder Name="/04-Collections-And-Data/" />
+  <Folder Name="/04-Collections-And-Data/11-CollectionView-And-DataTemplates/">
+    <Project Path="04-Collections-And-Data/11-CollectionView-And-DataTemplates/MauiMastery.CollectionViewVirtualization.csproj" />
+  </Folder>
+  <Folder Name="/04-Collections-And-Data/12-Infinite-Scroll-And-RefreshView/">
+    <Project Path="04-Collections-And-Data/12-Infinite-Scroll-And-RefreshView/MauiMastery.InfiniteScrollRefresh.csproj" />
+  </Folder>
+  <Folder Name="/04-Collections-And-Data/13-SQLite-Local-Database/">
+    <Project Path="04-Collections-And-Data/13-SQLite-Local-Database/MauiMastery.SQLiteDatabase.csproj" />
+  </Folder>
+  <Folder Name="/05-Hardware-And-Platform-APIs/" />
+  <Folder Name="/05-Hardware-And-Platform-APIs/14-Device-Sensors-And-Connectivity/">
+    <Project Path="05-Hardware-And-Platform-APIs/14-Device-Sensors-And-Connectivity/MauiMastery.DeviceSensors.csproj" />
+  </Folder>
+  <Folder Name="/05-Hardware-And-Platform-APIs/15-MediaPicker-And-SecureStorage/">
+    <Project Path="05-Hardware-And-Platform-APIs/15-MediaPicker-And-SecureStorage/MauiMastery.MediaAndFileSystem.csproj" />
+  </Folder>
+  <Folder Name="/05-Hardware-And-Platform-APIs/16-Platform-Handlers-And-Customization/">
+    <Project Path="05-Hardware-And-Platform-APIs/16-Platform-Handlers-And-Customization/MauiMastery.PlatformHandlers.csproj" />
+  </Folder>
+  <Folder Name="/06-Advanced-UI-And-Theming/" />
+  <Folder Name="/06-Advanced-UI-And-Theming/17-GraphicsView-And-Canvas-Drawing/">
+    <Project Path="06-Advanced-UI-And-Theming/17-GraphicsView-And-Canvas-Drawing/MauiMastery.GraphicsAndCanvas.csproj" />
+  </Folder>
+  <Folder Name="/06-Advanced-UI-And-Theming/18-Animations-And-VisualStateManager/">
+    <Project Path="06-Advanced-UI-And-Theming/18-Animations-And-VisualStateManager/MauiMastery.AnimationsAndTransitions.csproj" />
+  </Folder>
+  <Folder Name="/06-Advanced-UI-And-Theming/19-Dynamic-Theming-Light-Dark/">
+    <Project Path="06-Advanced-UI-And-Theming/19-Dynamic-Theming-Light-Dark/MauiMastery.DynamicTheming.csproj" />
+  </Folder>
+  <Folder Name="/07-Hybrid-And-Blazor/" />
+  <Folder Name="/07-Hybrid-And-Blazor/20-Blazor-Hybrid-Components/">
+    <Project Path="07-Hybrid-And-Blazor/20-Blazor-Hybrid-Components/MauiMastery.BlazorHybrid.csproj" />
+  </Folder>
+  <Folder Name="/08-Architecture-And-Testing/" />
+  <Folder Name="/08-Architecture-And-Testing/21-Clean-Architecture-In-MAUI/">
+    <Project Path="08-Architecture-And-Testing/21-Clean-Architecture-In-MAUI/MauiMastery.CleanArchitecture.csproj" />
+  </Folder>
+  <Folder Name="/08-Architecture-And-Testing/22-ViewModel-Unit-Testing-Patterns/">
+    <Project Path="08-Architecture-And-Testing/22-ViewModel-Unit-Testing-Patterns/MauiMastery.ViewModelTesting.csproj" />
+  </Folder>
+  <Folder Name="/09-Showcase-Applications/" />
+  <Folder Name="/09-Showcase-Applications/23-Showcase-TodoApp/">
+    <Project Path="09-Showcase-Applications/23-Showcase-TodoApp/TodoApp.csproj" />
+  </Folder>
+  <Folder Name="/09-Showcase-Applications/24-Showcase-ECommerceMobile/">
+    <Project Path="09-Showcase-Applications/24-Showcase-ECommerceMobile/MauiMastery.Showcase.ECommerceMobile.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MAUI.Mastery.UnitTests/MAUI.Mastery.UnitTests.csproj" />
+  </Folder>
+</Solution>
