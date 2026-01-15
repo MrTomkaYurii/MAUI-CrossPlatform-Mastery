@@ -1,0 +1,32 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiMastery.LayoutsDeepDive.Views.LayoutsShowcasePage"
+             Title="MAUI Layouts Deep Dive">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+            <!-- Grid Showcase -->
+            <Label Text="1. Grid (Таблиця 2x2)" FontSize="20" FontAttributes="Bold" />
+            <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="10" ColumnSpacing="10">
+                <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#E0F2FE" Padding="15">
+                    <Label Text="Колонка 1, Рядок 1 (*)" />
+                </Frame>
+                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#DCFCE7" Padding="15">
+                    <Label Text="Колонка 2, Рядок 1 (*)" />
+                </Frame>
+                <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#FEF3C7" Padding="15">
+                    <Label Text="Колонка 1-2 (ColumnSpan=2)" />
+                </Frame>
+            </Grid>
+
+            <!-- FlexLayout Showcase -->
+            <Label Text="2. FlexLayout (Wrap mode)" FontSize="20" FontAttributes="Bold" />
+            <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" Direction="Row">
+                <Button Text="Тег 1 (C#)" Margin="5" />
+                <Button Text="Тег 2 (.NET MAUI)" Margin="5" />
+                <Button Text="Тег 3 (XAML)" Margin="5" />
+                <Button Text="Тег 4 (MVVM)" Margin="5" />
+                <Button Text="Тег 5 (Cross-Platform)" Margin="5" />
+            </FlexLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
