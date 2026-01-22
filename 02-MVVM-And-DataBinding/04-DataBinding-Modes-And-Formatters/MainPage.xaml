@@ -1,0 +1,18 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiMastery.DataBindingModes.MainPage"
+             Title="Режими Binding">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <!-- OneWay: ViewModel -> View -->
+        <Label Text="OneWay (тільки читання з моделі):" FontAttributes="Bold" />
+        <Label Text="{Binding SourceText, Mode=OneWay}" TextColor="#2563EB" FontSize="18" />
+
+        <!-- TwoWay: View <-> ViewModel -->
+        <Label Text="TwoWay (двосторонній обмін):" FontAttributes="Bold" />
+        <Entry Text="{Binding SourceText, Mode=TwoWay}" Placeholder="Редагуйте тут" />
+
+        <!-- StringFormat -->
+        <Label Text="{Binding NumericValue, StringFormat='Ціна зі знижкою: {0:C2}'}" FontSize="16" />
+        <Label Text="{Binding Timestamp, StringFormat='Створено: {0:dd.MM.yyyy HH:mm}'}" TextColor="#6B7280" />
+    </VerticalStackLayout>
+</ContentPage>
