@@ -1,0 +1,12 @@
+﻿<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="MauiMastery.ShellRouting.AppShell">
+    <TabBar>
+        <Tab Title="Каталог" Icon="catalog.png">
+            <ShellContent ContentTemplate="{DataTemplate local:CatalogPage}" Route="catalog" />
+        </Tab>
+        <Tab Title="Профіль" Icon="profile.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" Route="profile" />
+        </Tab>
+    </TabBar>
+</Shell>
