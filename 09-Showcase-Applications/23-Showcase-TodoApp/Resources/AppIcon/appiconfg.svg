@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456 456">
+  <!-- Іконка застосунку: галочка всередині кола -->
+  <circle cx="228" cy="228" r="160" fill="none" stroke="white" stroke-width="20"/>
+  <polyline points="148,228 200,280 308,172" fill="none" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

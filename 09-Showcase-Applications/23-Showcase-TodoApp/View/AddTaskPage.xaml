@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    AddTaskPage.xaml — сторінка додавання нової справи.
+
+    Проста форма з двома полями введення (назва та опис)
+    і двома кнопками (зберегти та скасувати).
+
+    Shell.NavBarIsVisible="False" — ховаємо стандартний заголовок.
+-->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModel"
+             x:Class="TodoApp.View.AddTaskPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <!--
+        Grid як основний контейнер.
+        RowDefinitions:
+        - Auto: заголовок
+        - *: форма (займає всю доступну висоту)
+    -->
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- === РЯДОК 0: Заголовок сторінки === -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource PrimaryColor}"
+              Padding="16,48,16,16"
+              ColumnDefinitions="Auto, *">
+
+            <!-- Кнопка "назад" (стрілка) -->
+            <ImageButton Grid.Column="0"
+                         Source="back.svg"
+                         HeightRequest="24"
+                         WidthRequest="24"
+                         BackgroundColor="Transparent"
+                         Command="{Binding CancelCommand}"
+                         Margin="0,0,12,0" />
+
+            <!-- Заголовок сторінки -->
+            <Label Grid.Column="1"
+                   Text="Нова справа"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- === РЯДОК 1: Форма додавання === -->
+        <!--
+            ScrollView — дозволяє прокрутку форми на маленьких екранах
+            або при відкритій клавіатурі.
+        -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="16" Spacing="16">
+
+                <!-- Картка з полями форми -->
+                <Frame BackgroundColor="{StaticResource CardColor}"
+                       CornerRadius="12"
+                       Padding="16"
+                       HasShadow="True">
+
+                    <StackLayout Spacing="16">
+
+                        <!-- === Поле "Назва" === -->
+                        <StackLayout Spacing="4">
+                            <!-- Підпис поля -->
+                            <Label Text="Назва *"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextColor}" />
+
+                            <!--
+                                Entry — однорядкове поле введення.
+
+                                Text="{Binding Title, Mode=TwoWay}" — двостороннє прив'язування:
+                                - Коли користувач вводить текст → ViewModel.Title оновлюється
+                                - Коли ViewModel.Title змінюється → Entry показує нове значення
+
+                                Mode=TwoWay явно вказує напрям — для ясності коду.
+                                (Насправді Entry.Text за замовчуванням TwoWay)
+                            -->
+                            <Entry Text="{Binding Title, Mode=TwoWay}"
+                                   Placeholder="Введіть назву справи..."
+                                   FontSize="16"
+                                   ReturnType="Next"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <!-- Підказка -->
+                            <Label Text="Обов'язкове поле"
+                                   FontSize="11"
+                                   TextColor="{StaticResource SecondaryTextColor}" />
+                        </StackLayout>
+
+                        <!-- Роздільник між полями -->
+                        <BoxView HeightRequest="1"
+                                 Color="#E0E0E0" />
+
+                        <!-- === Поле "Опис" === -->
+                        <StackLayout Spacing="4">
+                            <Label Text="Опис"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextColor}" />
+
+                            <!--
+                                Editor — багаторядкове поле введення.
+                                AutoSize="TextChanges" — висота поля збільшується з текстом.
+                            -->
+                            <Editor Text="{Binding Description, Mode=TwoWay}"
+                                    Placeholder="Додайте детальний опис (необов'язково)..."
+                                    FontSize="15"
+                                    AutoSize="TextChanges"
+                                    MinimumHeightRequest="100" />
+                        </StackLayout>
+
+                    </StackLayout>
+                </Frame>
+
+                <!-- === Кнопки дій === -->
+                <Grid ColumnDefinitions="*, *"
+                      ColumnSpacing="12">
+
+                    <!--
+                        Кнопка "Скасувати" — повертає назад без збереження.
+                        Command прив'язаний до CancelCommand у ViewModel.
+                    -->
+                    <Button Grid.Column="0"
+                            Text="Скасувати"
+                            Command="{Binding CancelCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource PrimaryColor}"
+                            BorderColor="{StaticResource PrimaryColor}"
+                            BorderWidth="1.5"
+                            CornerRadius="8"
+                            FontSize="16"
+                            HeightRequest="48" />
+
+                    <!--
+                        Кнопка "Зберегти" — зберігає справу і повертає на головну.
+                        Command прив'язаний до SaveCommand у ViewModel.
+                        IsEnabled автоматично = false, якщо SaveCommand.CanExecute = false
+                        (тобто якщо поле Title порожнє).
+                    -->
+                    <Button Grid.Column="1"
+                            Text="Зберегти ✓"
+                            Command="{Binding SaveCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+
+                </Grid>
+
+                <!-- Підказка про обов'язкові поля -->
+                <Label Text="* Поле 'Назва' є обов'язковим для збереження"
+                       FontSize="12"
+                       TextColor="{StaticResource SecondaryTextColor}"
+                       HorizontalTextAlignment="Center" />
+
+            </StackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

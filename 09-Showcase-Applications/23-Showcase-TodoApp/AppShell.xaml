@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    AppShell.xaml — навігаційна оболонка застосунку.
+
+    Shell у MAUI — це контейнер, який керує навігацією між сторінками.
+    Він підтримує:
+    - Маршрути (Routes): унікальні імена для кожної сторінки
+    - GoToAsync(): навігація за маршрутом з коду
+    - Стек сторінок: автоматична кнопка "назад"
+
+    FlyoutBehavior="Disabled" — вимикаємо бічне меню (Flyout),
+    бо ми використовуємо власну нижню навігаційну панель.
+-->
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:TodoApp.View"
+       x:Class="TodoApp.AppShell"
+       FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False">
+
+    <!--
+        ShellContent — оголошує сторінку у Shell.
+
+        Route="main" — маршрут для навігації: Shell.Current.GoToAsync("//main")
+        "//" означає абсолютний шлях (повертаємось до кореня, скидаємо стек).
+
+        ContentTemplate="{DataTemplate ...}" — ліниве (lazy) завантаження:
+        сторінка створюється тільки коли відкривається вперше, а не при старті.
+
+        Ця сторінка є стартовою — відображається при відкритті застосунку.
+    -->
+    <ShellContent
+        Route="main"
+        ContentTemplate="{DataTemplate views:MainPage}" />
+
+</Shell>

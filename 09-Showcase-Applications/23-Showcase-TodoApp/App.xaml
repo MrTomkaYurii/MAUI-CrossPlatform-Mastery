@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    App.xaml — кореневий файл застосунку.
+    Тут визначаються глобальні ресурси: стилі, кольори, шрифти, що доступні на всіх сторінках.
+
+    Application — кореневий клас MAUI застосунку.
+    x:Class="TodoApp.App" — вказує на C# клас (App.xaml.cs), що відповідає за цей XAML.
+-->
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TodoApp.Converters"
+             x:Class="TodoApp.App">
+
+    <Application.Resources>
+        <!--
+            ResourceDictionary — словник ресурсів.
+            Ресурси, оголошені тут, доступні з будь-якого XAML у застосунку
+            через StaticResource або DynamicResource.
+        -->
+        <ResourceDictionary>
+
+            <!-- === Кольорова палітра застосунку === -->
+
+            <!-- Основний колір бренду — фіолетовий (Material You Purple) -->
+            <Color x:Key="PrimaryColor">#6750A4</Color>
+
+            <!-- Темніший варіант для натиснутого стану -->
+            <Color x:Key="PrimaryDarkColor">#4A3880</Color>
+
+            <!-- Колір для виконаних справ (зелений) -->
+            <Color x:Key="SuccessColor">#4CAF50</Color>
+
+            <!-- Колір для видалення (червоний) -->
+            <Color x:Key="DangerColor">#F44336</Color>
+
+            <!-- Фоновий колір сторінок -->
+            <Color x:Key="BackgroundColor">#F5F5F5</Color>
+
+            <!-- Колір карток справ (білий) -->
+            <Color x:Key="CardColor">#FFFFFF</Color>
+
+            <!-- Основний колір тексту -->
+            <Color x:Key="TextColor">#212121</Color>
+
+            <!-- Другорядний колір тексту (для опису, підказок) -->
+            <Color x:Key="SecondaryTextColor">#757575</Color>
+
+            <!-- Колір нижньої навігаційної панелі -->
+            <Color x:Key="NavBarColor">#FFFFFF</Color>
+
+            <!-- Колір активного елемента навігації -->
+            <Color x:Key="NavBarActiveColor">#6750A4</Color>
+
+            <!-- Колір неактивного елемента навігації -->
+            <Color x:Key="NavBarInactiveColor">#9E9E9E</Color>
+
+            <!-- === Глобальні конвертери === -->
+
+            <!-- StringNotEmptyConverter: рядок → bool (true якщо не порожній) -->
+            <!-- Використовується для IsVisible: показуємо опис тільки якщо він не порожній -->
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+
+            <!-- === Загальні стилі === -->
+
+            <!-- Стиль для заголовків сторінок -->
+            <Style x:Key="PageTitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+            </Style>
+
+            <!-- Стиль для основних кнопок -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

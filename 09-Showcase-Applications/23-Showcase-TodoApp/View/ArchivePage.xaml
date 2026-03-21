@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    ArchivePage.xaml — сторінка архіву виконаних справ.
+
+    Відображає список справ з IsCompleted = true.
+    Дозволяє тільки видалення (відновлення не передбачено за завданням).
+    Має таку ж нижню навігаційну панель, але з виділеною кнопкою "Архів".
+-->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModel"
+             xmlns:model="clr-namespace:TodoApp.Model"
+             x:Class="TodoApp.View.ArchivePage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <!-- Grid: заголовок | список | навігаційна панель -->
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <!-- === РЯДОК 0: Заголовок === -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource SuccessColor}"
+              Padding="16,48,16,16">
+
+            <Grid ColumnDefinitions="*, Auto">
+                <Label Grid.Column="0"
+                       Text="Архів виконаних"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+
+                <!-- Лічильник архівованих справ -->
+                <Frame Grid.Column="1"
+                       BackgroundColor="GhostWhite"
+                       CornerRadius="12"
+                       Padding="8,4"
+                       HasShadow="False">
+                    <Label Text="{Binding ArchivedTasks.Count, StringFormat='{0} справ'}"
+                           TextColor="Black"
+                           FontSize="13" />
+                </Frame>
+            </Grid>
+        </Grid>
+
+        <!-- === РЯДОК 1: Список архівованих справ === -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     RefreshColor="{StaticResource SuccessColor}">
+
+            <CollectionView ItemsSource="{Binding ArchivedTasks}"
+                            SelectionMode="None">
+
+                <!-- Порожній стан архіву -->
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12"
+                                 Padding="32">
+                        <Label Text="🏆"
+                               FontSize="64"
+                               HorizontalOptions="Center" />
+                        <Label Text="Архів порожній"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryTextColor}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Виконані справи з'являться тут"
+                               FontSize="14"
+                               TextColor="{StaticResource SecondaryTextColor}"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ContentLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="8" />
+                </CollectionView.ContentLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:TodoItem">
+
+                        <!--
+                            SwipeView для архіву: тільки один свайп — видалення (вліво).
+                            Виконані справи не можна "розвиконати" (за умовою завдання).
+                        -->
+                        <SwipeView Margin="12,0">
+
+                            <!-- Свайп вліво: ВИДАЛИТИ НАЗАВЖДИ -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem
+                                        Text="Видалити"
+                                        BackgroundColor="{StaticResource DangerColor}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteTaskCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <!--
+                                Картка виконаної справи.
+                                Відрізняється від активної: зелена смуга зліва та позначка ✓.
+                            -->
+                            <Frame BackgroundColor="{StaticResource CardColor}"
+                                   CornerRadius="12"
+                                   Padding="0"
+                                   HasShadow="True">
+
+                                <Grid ColumnDefinitions="6, *">
+
+                                    <!-- Зелена смуга зліва — індикатор виконання -->
+                                    <!-- Border замість BoxView; StrokeShape задає заокруглення лівих кутів -->
+                                    <Border Grid.Column="0"
+                                            BackgroundColor="{StaticResource SuccessColor}"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadii="12,0,0,12" />
+                                        </Border.StrokeShape>
+                                    </Border>
+
+                                    <!-- Вміст картки -->
+                                    <StackLayout Grid.Column="1"
+                                                 Padding="12,12,12,12"
+                                                 Spacing="4">
+
+                                        <!-- Рядок: назва + значок виконання -->
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Title}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextColor}"
+                                                   TextDecorations="Strikethrough"
+                                                   LineBreakMode="TailTruncation" />
+
+                                            <!-- Значок ✓ виконання -->
+                                            <Label Grid.Column="1"
+                                                   Text="✓"
+                                                   FontSize="18"
+                                                   TextColor="{StaticResource SuccessColor}"
+                                                   FontAttributes="Bold" />
+                                        </Grid>
+
+                                        <!-- Опис (якщо є) -->
+                                        <Label Text="{Binding Description}"
+                                               FontSize="13"
+                                               TextColor="{StaticResource SecondaryTextColor}"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+
+                                        <!-- Дата виконання -->
+                                        <Label Text="{Binding CompletedAt, StringFormat='Виконано: {0:dd.MM.yyyy HH:mm}'}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource SuccessColor}" />
+                                    </StackLayout>
+
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- === РЯДОК 2: Нижня навігаційна панель === -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*, *, *"
+              BackgroundColor="{StaticResource NavBarColor}"
+              Padding="0,8">
+
+            <!-- Роздільна лінія зверху навігаційної панелі (Border замість BoxView) -->
+            <Border Grid.ColumnSpan="3"
+                    VerticalOptions="Start"
+                    HeightRequest="1"
+                    BackgroundColor="#E0E0E0"
+                    StrokeThickness="0" />
+
+            <!-- Кнопка "Головна" (неактивна на цій сторінці) -->
+            <StackLayout Grid.Column="0"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <ImageButton Source="home.svg"
+                             HeightRequest="28"
+                             WidthRequest="28"
+                             BackgroundColor="Transparent"
+                             Command="{Binding NavigateToMainCommand}"
+                             Opacity="0.6" />
+                <Label Text="Головна"
+                       FontSize="10"
+                       TextColor="{StaticResource NavBarInactiveColor}"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
+            <!-- Кнопка "Додати" -->
+            <StackLayout Grid.Column="1"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <Frame BackgroundColor="{StaticResource PrimaryColor}"
+                       CornerRadius="28"
+                       Padding="0"
+                       HasShadow="True"
+                       HeightRequest="56"
+                       WidthRequest="56"
+                       HorizontalOptions="Center">
+                    <ImageButton Source="add.svg"
+                                 HeightRequest="28"
+                                 WidthRequest="28"
+                                 BackgroundColor="Transparent"
+                                 Command="{Binding NavigateToAddCommand}" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Кнопка "Архів" (активна — ця сторінка) -->
+            <StackLayout Grid.Column="2"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <ImageButton Source="archive.svg"
+                             HeightRequest="28"
+                             WidthRequest="28"
+                             BackgroundColor="Transparent"
+                             Opacity="1" />
+                <Label Text="Архів"
+                       FontSize="10"
+                       TextColor="{StaticResource NavBarActiveColor}"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

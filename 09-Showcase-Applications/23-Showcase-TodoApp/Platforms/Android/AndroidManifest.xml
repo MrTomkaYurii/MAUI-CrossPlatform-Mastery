@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml — декларація застосунку для Android.
+
+    Тут описуються:
+    - Ідентифікатор застосунку (package)
+    - Мінімальна та цільова версія Android SDK
+    - Дозволи (permissions) — що застосунок може робити
+
+    MAUI автоматично доповнює цей файл під час збірки
+    (додає Activity, Application тощо з атрибутів у C# коді).
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.todoapp">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="36" />
+
+    <!-- Дозвіл на доступ до інтернету (на випадок майбутніх функцій) -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/appicon"
+        android:roundIcon="@mipmap/appicon_round"
+        android:supportsRtl="true"
+        android:label="@string/app_name">
+    </application>
+
+</manifest>

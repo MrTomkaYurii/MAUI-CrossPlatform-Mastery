@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Цільові платформи: Android, iOS, Mac Catalyst та Windows -->
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.19041.0</TargetFrameworks>
+
+    <!-- Виключаємо платформи, якщо збірка виконується не на Mac -->
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">net10.0-android;net10.0-windows10.0.19041.0</TargetFrameworks>
+
+    <!-- Тип проєкту — виконуваний файл (не бібліотека) -->
+    <OutputType>Exe</OutputType>
+
+    <!-- Кореневий простір імен проєкту -->
+    <RootNamespace>TodoApp</RootNamespace>
+    <UseMaui>true</UseMaui>
+
+    <!-- Один проєкт для всіх платформ (MAUI Single Project) -->
+    <SingleProject>true</SingleProject>
+
+    <!-- Вмикаємо неявні using (не потрібно писати using System; тощо) -->
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Вмикаємо nullable reference types для безпечнішого коду -->
+    <Nullable>enable</Nullable>
+
+    <!-- Назва та версія застосунку -->
+    <ApplicationTitle>TodoApp</ApplicationTitle>
+    <ApplicationId>com.example.todoapp</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+
+    <!-- Мінімальні версії ОС -->
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <!-- Ресурси застосунку: іконки, шрифти, зображення, стилі -->
+  <ItemGroup>
+    <!-- Іконка застосунку -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+    <!-- Екран завантаження (Splash Screen) -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+    <!-- Зображення для навігаційної панелі та інтерфейсу -->
+    <MauiImage Include="Resources\Images\*" />
+
+    <!-- Шрифти: OpenSans включений за замовчуванням у MAUI -->
+    <MauiFont Include="Resources\Fonts\*" />
+
+    <!-- Файли з необробленими даними (наприклад, JSON з конфігурацією) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- sqlite-net-pcl: основна бібліотека для роботи з SQLite -->
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+
+    <!-- SQLitePCLRaw.bundle_green: нативні бінарники SQLite для всіх платформ -->
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Microsoft.Maui.Controls: явно додаємо пакет (потрібно з .NET 8+) -->
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
+  </ItemGroup>
+
+</Project>

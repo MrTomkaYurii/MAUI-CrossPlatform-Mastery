@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    MainPage.xaml — головна сторінка застосунку.
+    Відображає список активних (невиконаних) справ.
+
+    xmlns:vm — підключаємо простір імен ViewModel, щоб XAML знав про наші типи.
+    Shell.NavBarIsVisible="False" — ховаємо стандартний заголовок Shell,
+    бо маємо власний дизайн заголовка.
+-->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModel"
+             xmlns:model="clr-namespace:TodoApp.Model"
+             x:Class="TodoApp.View.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <!--
+        Grid як основний контейнер сторінки.
+        RowDefinitions:
+        - Auto: рядок для заголовка (висота підлаштовується під контент)
+        - *: рядок для списку справ (займає весь залишковий простір)
+        - Auto: рядок для нижньої навігаційної панелі
+    -->
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <!-- === РЯДОК 0: Заголовок === -->
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource PrimaryColor}"
+              Padding="16,48,16,16">
+
+            <Grid ColumnDefinitions="*, Auto">
+                <!-- Назва застосунку / сторінки -->
+                <Label Grid.Column="0"
+                       Text="Мої справи"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+
+                <!-- Лічильник активних справ -->
+                <Frame Grid.Column="1"
+                       BackgroundColor="#FFFFFF22"
+                       CornerRadius="12"
+                       Padding="8,4"
+                       HasShadow="False">
+                    <Label Text="{Binding Tasks.Count, StringFormat='{0} справ'}"
+                           TextColor="White"
+                           FontSize="13" />
+                </Frame>
+            </Grid>
+        </Grid>
+
+        <!-- === РЯДОК 1: Список справ з Pull-to-Refresh === -->
+        <!--
+            RefreshView — обгортка, що додає функцію "потягни щоб оновити".
+            Command прив'язаний до RefreshCommand у ViewModel.
+            IsRefreshing синхронізує стан індикатора з ViewModel.
+        -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     RefreshColor="{StaticResource PrimaryColor}">
+
+            <!--
+                CollectionView — ефективний список для MAUI.
+                ItemsSource: прив'язуємо до колекції Tasks у ViewModel.
+                Кожен елемент Tasks (TodoItem) буде відображений за допомогою ItemTemplate.
+            -->
+            <CollectionView ItemsSource="{Binding Tasks}"
+                            SelectionMode="None">
+
+                <!-- Відображення коли список порожній -->
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12"
+                                 Padding="32">
+                        <Label Text="📋"
+                               FontSize="64"
+                               HorizontalOptions="Center" />
+                        <Label Text="Немає активних справ"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryTextColor}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Натисніть + щоб додати нову справу"
+                               FontSize="14"
+                               TextColor="{StaticResource SecondaryTextColor}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <!-- Відступи навколо всього списку -->
+                <CollectionView.ContentLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="8" />
+                </CollectionView.ContentLayout>
+
+                <!--
+                    ItemTemplate — шаблон для КОЖНОГО елемента списку.
+                    DataTemplate: MAUI автоматично встановлює BindingContext кожного елемента
+                    на відповідний TodoItem з колекції Tasks.
+                -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:TodoItem">
+
+                        <!--
+                            SwipeView — контейнер з підтримкою жестів свайпу.
+                            Лівий свайп: видалити справу.
+                            Правий свайп: позначити як виконану.
+                        -->
+                        <SwipeView Margin="12,0">
+
+                            <!-- === Свайп вліво: ВИДАЛИТИ === -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <!--
+                                        SwipeItem — дія при свайпі.
+
+                                        Command: прив'язка до команди у ViewModel.
+                                        Проблема: BindingContext тут — TodoItem, а команда — у MainViewModel.
+                                        Рішення: RelativeSource AncestorType — піднімаємось по дереву елементів
+                                        до ContentPage і беремо її BindingContext (MainViewModel).
+                                    -->
+                                    <SwipeItem
+                                        Text="Видалити"
+                                        BackgroundColor="{StaticResource DangerColor}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteTaskCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <!-- === Свайп вправо: ВИКОНАТИ === -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem
+                                        Text="Виконано ✓"
+                                        BackgroundColor="{StaticResource SuccessColor}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CompleteTaskCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <!--
+                                Frame — картка справи із заокругленими кутами.
+                                CornerRadius — радіус заокруглення кутів.
+                                HasShadow — додає тінь для ефекту підняття.
+                            -->
+                            <Frame BackgroundColor="{StaticResource CardColor}"
+                                   CornerRadius="12"
+                                   Padding="16"
+                                   HasShadow="True">
+
+                                <!-- Вміст картки: чекбокс + текст -->
+                                <Grid ColumnDefinitions="Auto, *">
+
+                                    <!--
+                                        CheckBox — для позначення виконання.
+                                        IsChecked прив'язаний до IsCompleted (OneWay: тільки читання).
+                                        CheckedChanged — обробник події в code-behind,
+                                        який викликає CompleteTaskCommand у ViewModel.
+                                    -->
+                                    <CheckBox Grid.Column="0"
+                                              IsChecked="{Binding IsCompleted, Mode=OneWay}"
+                                              CheckedChanged="OnTaskCheckChanged"
+                                              Color="{StaticResource PrimaryColor}"
+                                              VerticalOptions="Center" />
+
+                                    <!-- Назва та опис справи -->
+                                    <StackLayout Grid.Column="1"
+                                                 VerticalOptions="Center"
+                                                 Spacing="4">
+
+                                        <!-- Назва справи -->
+                                        <Label Text="{Binding Title}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextColor}"
+                                               LineBreakMode="TailTruncation" />
+
+                                        <!-- Опис справи (якщо є) -->
+                                        <Label Text="{Binding Description}"
+                                               FontSize="13"
+                                               TextColor="{StaticResource SecondaryTextColor}"
+                                               IsVisible="{Binding Description, Converter={x:StaticResource StringNotEmptyConverter}}"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+
+                                        <!-- Дата створення -->
+                                        <Label Text="{Binding CreatedAt, StringFormat='Створено: {0:dd.MM.yyyy HH:mm}'}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource SecondaryTextColor}" />
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- === РЯДОК 2: Нижня навігаційна панель === -->
+        <!--
+            Нижня навігаційна панель з ImageButton для переходу між сторінками.
+            Grid з трьома рівними колонками: Головна | Додати | Архів.
+        -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*, *, *"
+              BackgroundColor="{StaticResource NavBarColor}"
+              Padding="0,8">
+
+            <!-- Роздільна лінія зверху навігаційної панелі -->
+            <!-- Border замість BoxView (BoxView прибрано з .NET MAUI 9+) -->
+            <Border Grid.ColumnSpan="3"
+                    VerticalOptions="Start"
+                    HeightRequest="1"
+                    BackgroundColor="#E0E0E0"
+                    StrokeThickness="0" />
+
+            <!-- Кнопка "Головна" (активна сторінка) -->
+            <StackLayout Grid.Column="0"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <!--
+                    ImageButton — кнопка із зображенням.
+                    Source: ім'я файлу з Resources/Images/.
+                    Command: навігація (тут немає — ми вже на головній).
+                -->
+                <ImageButton Source="home.svg"
+                             HeightRequest="28"
+                             WidthRequest="28"
+                             BackgroundColor="Transparent"
+                             Opacity="1" />
+                <Label Text="Головна"
+                       FontSize="10"
+                       TextColor="{StaticResource NavBarActiveColor}"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
+            <!-- Кнопка "Додати" (центральна, виділена) -->
+            <StackLayout Grid.Column="1"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <Frame BackgroundColor="{StaticResource PrimaryColor}"
+                       CornerRadius="28"
+                       Padding="0"
+                       HasShadow="True"
+                       HeightRequest="56"
+                       WidthRequest="56"
+                       HorizontalOptions="Center">
+                    <ImageButton Source="add.svg"
+                                 HeightRequest="28"
+                                 WidthRequest="28"
+                                 BackgroundColor="Transparent"
+                                 Command="{Binding NavigateToAddCommand}" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Кнопка "Архів" -->
+            <StackLayout Grid.Column="2"
+                         HorizontalOptions="Center"
+                         Spacing="2">
+                <ImageButton Source="archive.svg"
+                             HeightRequest="28"
+                             WidthRequest="28"
+                             BackgroundColor="Transparent"
+                             Command="{Binding NavigateToArchiveCommand}"
+                             Opacity="0.6" />
+                <Label Text="Архів!"
+                       FontSize="10"
+                       TextColor="{StaticResource NavBarInactiveColor}"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Екран завантаження: галочка -->
+  <circle cx="64" cy="64" r="48" fill="none" stroke="white" stroke-width="6"/>
+  <polyline points="40,64 56,80 88,48" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
