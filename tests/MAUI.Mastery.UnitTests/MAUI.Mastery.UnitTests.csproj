@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\02-MVVM-And-DataBinding\04-DataBinding-Modes-And-Formatters\MauiMastery.DataBindingModes.csproj" />
+    <ProjectReference Include="..\..\02-MVVM-And-DataBinding\05-Converters-And-Triggers\MauiMastery.ConvertersAndTriggers.csproj" />
+    <ProjectReference Include="..\..\02-MVVM-And-DataBinding\07-Community-Toolkit-MVVM\MauiMastery.CommunityToolkitMvvm.csproj" />
+    <ProjectReference Include="..\..\03-Navigation-And-Shell\08-Shell-Routing-And-Query-Parameters\MauiMastery.ShellRouting.csproj" />
+    <ProjectReference Include="..\..\08-Architecture-And-Testing\21-Clean-Architecture-In-MAUI\MauiMastery.CleanArchitecture.csproj" />
+    <ProjectReference Include="..\..\08-Architecture-And-Testing\22-ViewModel-Unit-Testing-Patterns\MauiMastery.ViewModelTesting.csproj" />
+    <ProjectReference Include="..\..\09-Showcase-Applications\24-Showcase-ECommerceMobile\MauiMastery.Showcase.ECommerceMobile.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\09-Showcase-Applications\23-Showcase-TodoApp\Model\TodoItem.cs" Link="Linked\TodoItem.cs" />
+    <Compile Include="..\..\09-Showcase-Applications\23-Showcase-TodoApp\Repository\ITodoRepository.cs" Link="Linked\ITodoRepository.cs" />
+    <Compile Include="..\..\09-Showcase-Applications\23-Showcase-TodoApp\ViewModel\BaseViewModel.cs" Link="Linked\BaseViewModel.cs" />
+    <Compile Include="..\..\09-Showcase-Applications\23-Showcase-TodoApp\ViewModel\RelayCommand.cs" Link="Linked\RelayCommand.cs" />
+    <Compile Include="..\..\09-Showcase-Applications\23-Showcase-TodoApp\Converters\StringNotEmptyConverter.cs" Link="Linked\StringNotEmptyConverter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
+
+</Project>
